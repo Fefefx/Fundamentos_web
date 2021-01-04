@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .caixa{
+            height: 100px;
+            width: 100px;
+            background-color: chocolate;
+        }
+        .drop{
+            height: 200px;
+            width: 200px;
+            border: crimson 1px solid;
+        }
+    </style>
+</head>
+<body>
+    <div id="c1" class="caixa" draggable="true"></div>
+    <div id="c2" class="caixa" draggable="true"></div>
+    <div class="drop" dropzone="copy"></div>
+    <script>
+        const caixas = document.querySelectorAll('.caixa');
+        const dropZone = document.querySelector('[dropzone]');
+        caixas.forEach(caixaEl=>{
+            //Escuta o evento de arrastar
+            caixaEl.addEventListener('dragstart',e=>{
+                //Recupera o id do elemento arrastado
+                e.dataTransfer.setData('Text',e.target.id);
+                console.log(e.target.id);
+            });
+        });
+        //Cancela o compartamento padrão do navegador ao ter itens arrastados acima dele
+        dropZone.addEventListener('dragover',e=>{
+            e.preventDefault();
+        });
+        //Escuta o evento de soltar
+        dropZone.addEventListener('drop',e=>{
+            const id = e.dataTransfer.getData('Text');
+            const element = document.getElementById(id);
+            e.target.appendChild(element);
+        });
+    </script>
+</body>
+</html>
